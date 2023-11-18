@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { TransferTokenCard } from "@/features/transfer/TransferTokenCard";
+
 
 interface GrantProps {
     address: string;
@@ -93,7 +95,10 @@ function GoodDetailsPage() {
             </div>
           </dl>
         </a>
-                </div>
+
+        <TransferTokenCard />
+      </div>
+
     );
 };
 

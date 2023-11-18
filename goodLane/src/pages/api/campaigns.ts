@@ -15,7 +15,7 @@ type Data = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-    const provider = new ethers.JsonRpcProvider('https://rpc.ankr.com/eth_goerli');
+    const provider = new ethers.JsonRpcProvider('https://goerli.infura.io/v3/774dc13131de491b93419ad07613b6c4');
     const factoryContract = new ethers.Contract('0xCd4e5e4028A14f75FBa499905dFf120AeF6d91EA', factoryAbi, provider);
 
     try {

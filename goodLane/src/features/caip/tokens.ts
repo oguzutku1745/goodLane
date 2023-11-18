@@ -84,7 +84,7 @@ export function isNativeToken(id: TokenCaip19Id): boolean {
 
 export function getNativeTokenAddress(protocol: ProtocolType): Address {
   if (protocol === ProtocolType.Ethereum) {
-    return ethers.constants.AddressZero;
+    return "0x0000000000000000000000000000000000000000";
   } else if (protocol === ProtocolType.Sealevel) {
     return SOL_ZERO_ADDRESS;
   } else if (protocol === ProtocolType.Cosmos) {

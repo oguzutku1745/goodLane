@@ -1,5 +1,10 @@
 import "@/styles/globals.css";
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ErrorBoundary } from '../components/errors/ErrorBoundary';
+import { CosmosWalletContext } from '../features/wallet/CosmosWalletContext';
+import { EvmWalletContext } from '../features/wallet/EvmWalletContext';
+import { SolanaWalletContext } from '../features/wallet/SolanaWalletContext';
 import Menubar from "@/components/Menubar";
 import Footer from "@/components/Footer";
 import { WagmiConfig } from "wagmi";
@@ -31,6 +36,13 @@ const chains = [
 
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || "";
 
+const reactQueryClient = new QueryClient({
+	defaultOptions: {
+	  queries: {
+		refetchOnWindowFocus: false,
+	  },
+	},
+  });
 
 const wagmiConfig = defaultWagmiConfig({ chains, projectId });
 
@@ -44,13 +56,19 @@ export default function App({ Component, pageProps }: AppProps) {
 	}, []);
 	return (
 		<>
-			{ready ? (
-				<WagmiConfig config={wagmiConfig}>
-				  <Menubar>
-				  	<Component {...pageProps} />
-          </Menubar>
-          {<Footer />}
-				</WagmiConfig>
+	{ready ? (
+	<WagmiConfig config={wagmiConfig}>
+		<ErrorBoundary>
+      		<EvmWalletContext>
+						<QueryClientProvider client={reactQueryClient}>
+		  					<Menubar>
+		  						<Component {...pageProps} />
+          					</Menubar>
+						{<Footer />}
+					</QueryClientProvider>
+		</EvmWalletContext>
+	</ErrorBoundary>
+</WagmiConfig>
 			) : null}
 		</>
 	);
