@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import Dropdown from '@/components/Dropdown';
 import DatePicker from '@/components/DatePicker';
-import { useContractWrite } from 'wagmi';
+import { useContractWrite,usePrepareContractWrite } from 'wagmi';
+import { factoryAbi } from '@/abis/factoryAbi';
 
 export default function Create() {
     const [grantDetails, setGrantDetails] = useState({
@@ -11,9 +12,28 @@ export default function Create() {
         chain: "",
         targetNumber: 0,
         date: new Date(),
+        id: 0,
     });
+        
 
     console.log(grantDetails)
+
+        const { config } = usePrepareContractWrite({
+            address: '0xCd4e5e4028A14f75FBa499905dFf120AeF6d91EA',
+            abi: factoryAbi,
+            functionName: 'createDonationCampaign',
+            args: [
+              500000,
+              grantDetails.name,
+              grantDetails.desc,
+              grantDetails.banner,
+              Math.floor(grantDetails.date.getTime() / 1000),
+              5   
+          ],
+      })
+
+      const { write } = useContractWrite(config)
+
 
     const handleInputChange = (e:any) => {
         const { name, value } = e.target;
@@ -78,13 +98,30 @@ export default function Create() {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="banner-link">
                             Target Amount
                         </label>
-                        <input 
+                        <input
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                             id="target-number" 
                             type="number"
                             name="targetNumber"
                             value={grantDetails.targetNumber}
-                            onChange={handleInputChange}
+                            onChange={handleInputChange} 
+
+                        />
+                    </div>
+                </div>
+
+                <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="banner-link">
+                            Id
+                        </label>
+                        <input 
+                              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                              id="id" 
+                              type="number"
+                              name="id"
+                              value={grantDetails.id}
+                              onChange={handleInputChange}
                         />
                     </div>
                 </div>
@@ -101,7 +138,9 @@ export default function Create() {
                 </div>
                 <div className="md:flex md:items-center">
                     <div className="md:w-1/3">
-                        <button className="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                        <button className="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button"
+                          disabled={!write}
+                          onClick={() => write?.()}>
                             Post
                         </button>
                     </div>
