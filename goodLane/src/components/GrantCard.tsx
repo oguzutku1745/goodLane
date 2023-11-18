@@ -1,26 +1,50 @@
-import {useState} from "react";
+import {useState, FC} from "react";
 import Image from "next/image";
+import Link from "next/link";
 
-const GrantCard = () => {
+interface GrantProps {
+  address: string;
+  campaignAmount: string;
+  campaignDesc: string;
+  campaignEnded: boolean;
+  campaignName: string;
+  campaignId: string;
+  campaignImage: string;
+  campaignOwner: string;
+  campaignDeadline: string;
+}
 
+const GrantCard: FC<GrantProps> = ({address, campaignAmount, campaignDeadline, campaignName, campaignDesc, campaignEnded, campaignId, campaignImage, campaignOwner}) => {
+  const [imgSrc, setImgSrc] = useState(campaignImage);
+
+  const handleCardClick = () => {
+
+    const campaignData = { address, campaignAmount, campaignDeadline, campaignDesc, campaignEnded, campaignId, campaignImage, campaignOwner };
+    localStorage.setItem('selectedCampaign', JSON.stringify(campaignData));
+  };
+
+
+  const handleError = () => {
+    setImgSrc('/broken-image.jpg'); // Set this to your fallback image path
+};
 
 return(
-<div className="relative flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+  <Link href={`/goods/${campaignId}`} passHref>
+<div className="relative flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md" onClick={handleCardClick}>
   <div className="relative mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
-    <Image
-    src="/obt.jpeg"
-    alt="img-blur-shadow"
-    fill={true}
-    />
+      <img
+            src={imgSrc}
+            alt="img-blur-shadow"
+            onError={handleError}
+            style={{ width: '100%', height: 'auto' }} // Adjust styling as needed
+        />
   </div>
   <div className="p-6">
     <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-      UI/UX Review Check
+      {campaignName}
     </h5>
     <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
-      The place is close to Barceloneta Beach and bus stop just 2 min by walk
-      and near to "Naviglio" where you can enjoy the main night life in
-      Barcelona.
+      {campaignDesc}
     </p>
   </div>
   <div className="p-6 pt-0">
@@ -29,11 +53,11 @@ return(
       type="button"
       data-ripple-light="true"
     >
-      Read More
+      Details
     </button>
   </div>
 </div>
-
+</Link>
 )
 
 }

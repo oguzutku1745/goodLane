@@ -14,6 +14,7 @@ import {
 	mainnet,
 	optimism,
 	polygon,
+  goerli
 } from "wagmi/chains";
 
 const chains = [
@@ -25,6 +26,7 @@ const chains = [
 	optimism,
 	gnosis,
 	fantom,
+  goerli
 ];
 
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || "";
