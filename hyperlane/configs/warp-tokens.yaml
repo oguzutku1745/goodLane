@@ -1,0 +1,12 @@
+base:
+  chainName: goerli
+  type: native
+  address: "0x0000000000000000000000000000000000000000"
+  isNft: false
+synthetics:
+  - chainName: mantletestnet
+  - chainName: arbitrumgoerli
+  - chainName: basegoerli
+  - chainName: polygonzkevmtestnet
+  - chainName: scrollsepolia
+
