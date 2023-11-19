@@ -1,6 +1,6 @@
 import { MsgTransferEncodeObject } from '@cosmjs/stargate';
 import type { Transaction as SolTransaction } from '@solana/web3.js';
-import { BigNumber, PopulatedTransaction as EvmTransaction, providers } from 'ethers';
+import { BigNumberish, PopulatedTransaction as EvmTransaction, providers } from 'ethers';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -265,8 +265,9 @@ async function executeEvmTransfer({
   updateStatus(TransferStatus.CreatingTransfer);
 
   const gasPayment = await hypTokenAdapter.quoteGasPayment(destinationDomainId);
-  const gasPaymentNumber = Number(gasPayment);
-  const totalValue = BigNumber(gasPaymentNumber).add(weiAmountOrId.toString());
+  const gasPaymentNumber = BigInt(gasPayment);
+  const weiAmount = BigInt(weiAmountOrId)
+  const totalValue = gasPaymentNumber + weiAmount;
   logger.debug('Quoted gas payment', gasPayment);
   // If sending native tokens (e.g. Eth), the gasPayment must be added to the tx value and sent together
   const txValue = isRouteFromNative(tokenRoute)

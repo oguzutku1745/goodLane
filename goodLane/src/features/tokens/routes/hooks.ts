@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-import { ibcRoutes } from '../../../consts/ibcRoutes';
 import { logger } from '../../../utils/logger';
 import { getChainIdFromToken } from '../../caip/tokens';
 import { getTokens, isIbcToken, parseTokens } from '../metadata';
@@ -30,11 +29,6 @@ export function useTokenRoutes() {
         tokens.push(tokenWithHypTokens);
       }
       let routes = computeTokenRoutes(tokens);
-
-      if (ibcRoutes) {
-        logger.info('Found ibc route configs, adding to route map');
-        routes = mergeRoutes(routes, ibcRoutes);
-      }
 
       return routes;
     },
