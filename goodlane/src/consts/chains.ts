@@ -53,14 +53,14 @@ export const chains: ChainMap<ChainMetadata & { mailbox?: Address }> = {
     ...chainMetadata.solanatestnet,
     mailbox: 'TODO',
   },
-  // basegoerli: {
-  //   ...chainMetadata.basegoerli,
-  //   rpcUrls: [
-  //     {
-  //       http: process.env.NEXT_PUBLIC_basegoerli_RPC_URL || '',
-  //     },
-  //   ],
-  // },
+  basegoerli: {
+    ...chainMetadata.basegoerli,
+    rpcUrls: [
+      {
+        http: 'https://goerli.base.org',
+      },
+    ],
+  },
   // sepolia: {
   //   ...chainMetadata.sepolia,
   //   rpcUrls: [
