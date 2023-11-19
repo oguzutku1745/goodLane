@@ -7,7 +7,11 @@ import { useTokenRoutes } from '../tokens/routes/hooks';
 
 import { TransferTokenForm } from './TransferTokenForm';
 
-export function TransferTokenCard() {
+interface GrantProps {
+  address: string;
+}
+
+export function TransferTokenCard({ address }: GrantProps) {
   const { tokenRoutes, isLoading, error: routesError } = useTokenRoutes();
 
   return (
@@ -22,7 +26,7 @@ export function TransferTokenCard() {
             color={Color.primaryBlue}
           />
         </div>
-        {tokenRoutes && <TransferTokenForm tokenRoutes={tokenRoutes} />}
+        {tokenRoutes && <TransferTokenForm address={address} tokenRoutes={tokenRoutes} />}
         {isLoading && (
           <div className="my-24 flex flex-col items-center">
             <Spinner />

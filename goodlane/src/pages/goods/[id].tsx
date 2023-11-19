@@ -83,7 +83,7 @@ function GoodDetailsPage() {
             <dd className="text-xs text-slate-500">{campaign.campaignAmount}</dd>
           </div>
 
-          <TransferTokenCard />
+          <TransferTokenCard address={campaign.address} />
         </dl>
       </a>
     </div>

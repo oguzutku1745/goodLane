@@ -51,9 +51,15 @@ import { TransferFormValues } from './types';
 import { useIgpQuote } from './useIgpQuote';
 import { useTokenTransfer } from './useTokenTransfer';
 
-export function TransferTokenForm({ tokenRoutes }: { tokenRoutes: RoutesMap }) {
+export function TransferTokenForm({
+  tokenRoutes,
+  address,
+}: {
+  tokenRoutes: RoutesMap;
+  address: string;
+}) {
   const chainCaip2Ids = useRouteChains(tokenRoutes);
-  const initialValues = useFormInitialValues(chainCaip2Ids, tokenRoutes);
+  const initialValues = useFormInitialValues(chainCaip2Ids, tokenRoutes, address);
 
   // Flag for if form is in input vs review mode
   const [isReview, setIsReview] = useState(false);
@@ -87,7 +93,7 @@ export function TransferTokenForm({ tokenRoutes }: { tokenRoutes: RoutesMap }) {
           <TokenSection tokenRoutes={tokenRoutes} setIsNft={setIsNft} isReview={isReview} />
           <AmountSection tokenRoutes={tokenRoutes} isNft={isNft} isReview={isReview} />
         </div>
-        <RecipientSection tokenRoutes={tokenRoutes} isReview={isReview} />
+        <RecipientSection tokenRoutes={tokenRoutes} isReview={isReview} address={address} />
         <ReviewDetails visible={isReview} tokenRoutes={tokenRoutes} />
         <ButtonSection tokenRoutes={tokenRoutes} isReview={isReview} setIsReview={setIsReview} />
       </Form>
@@ -236,18 +242,21 @@ function AmountSection({
 function RecipientSection({
   tokenRoutes,
   isReview,
+  address,
 }: {
   tokenRoutes: RoutesMap;
   isReview: boolean;
+  address: string;
 }) {
   const { values } = useFormikContext<TransferFormValues>();
   const { balance, decimals } = useDestinationBalance(values, tokenRoutes);
-
+  const recipientAddress = values.recipientAddress;
   // A crude way to detect transfer completions by triggering
   // toast on recipientAddress balance increase. This is not ideal because it
   // could confuse unrelated balance changes for message delivery
   // TODO replace with a polling worker that queries the hyperlane explorer
-  const recipientAddress = values.recipientAddress;
+
+  console.log('deep address:', recipientAddress);
   const prevRecipientBalance = useRef<{ balance?: string; recipientAddress?: string }>({
     balance: '',
     recipientAddress: '',
@@ -278,7 +287,7 @@ function RecipientSection({
           name="recipientAddress"
           placeholder="0x123456..."
           classes="w-full"
-          disabled={isReview}
+          disabled={true}
         />
         <SelfButton disabled={isReview} />
       </div>
@@ -594,6 +603,7 @@ function validateFormValues(
 function useFormInitialValues(
   chainCaip2Ids: ChainCaip2Id[],
   tokenRoutes: RoutesMap,
+  address: string,
 ): TransferFormValues {
   return useMemo(() => {
     const firstRoute = Object.values(tokenRoutes[chainCaip2Ids[0]]).filter(
@@ -604,7 +614,7 @@ function useFormInitialValues(
       destinationCaip2Id: firstRoute.destCaip2Id,
       amount: '',
       tokenCaip19Id: firstRoute.baseTokenCaip19Id,
-      recipientAddress: '',
+      recipientAddress: address,
     };
   }, [chainCaip2Ids, tokenRoutes]);
 }
