@@ -12,6 +12,7 @@ interface GrantProps {
   campaignImage: string;
   campaignOwner: string;
   campaignDeadline: string;
+  providerName: string;
 }
 
 function GoodDetailsPage() {

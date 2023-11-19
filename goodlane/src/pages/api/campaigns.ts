@@ -14,7 +14,7 @@ type CampaignData = {
   campaignImage: string;
   campaignAmount: string;
   campaignOwner: string;
-  providerName: string; // added to identify the provider
+  providerName: string;
 };
 
 type Data = {
