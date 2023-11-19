@@ -9,20 +9,20 @@ import protobuf from "protobufjs";
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
-interface IWakuConnection {}
+//interface IWakuConnection {}
 
 const contentTopic = "/light-guide/1/message/proto";
 
 // Create a message encoder and decoder
 const encoder = createEncoder({ contentTopic });
-const decoder = createDecoder(contentTopic);
+//const decoder = createDecoder(contentTopic);
 
 const messageType = new protobuf.Type("ChatMessage")
   .add(new protobuf.Field("timestamp", 1, "uint64"))
   .add(new protobuf.Field("sender", 2, "string"))
   .add(new protobuf.Field("message", 3, "string"));
 
-const WakuConnection: React.FC<IWakuConnection> = ({}) => {
+const WakuConnection: React.FC = ({}) => {
   //   const [messageStructure, setMessageStructure] = useState<protobuf.Type>();
   const [wakuNode, setWakuNode] = useState<LightNode | null>(null);
   const [text, setText] = useState("");
