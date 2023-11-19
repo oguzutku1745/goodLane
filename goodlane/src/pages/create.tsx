@@ -1,34 +1,56 @@
-import { useState } from 'react';
-import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { useEffect, useState } from 'react';
+import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 
 import { factoryAbi } from '../abis/factoryAbi';
 import DatePicker from '../components/DatePicker';
-import Dropdown from '../components/Dropdown';
 
 export default function Create() {
   const [grantDetails, setGrantDetails] = useState({
     name: '',
     desc: '',
     banner: '',
-    chain: '',
+    chain_id: 0,
     targetNumber: 0,
     date: new Date(),
     id: 0,
   });
+  type EthereumAddress = `0x${string}`;
 
   console.log(grantDetails);
 
+  const { chain } = useNetwork(); // useNetwork hook from wagmi to get current network information
+
+  useEffect(() => {
+    if (chain?.id) {
+      setGrantDetails((prevDetails) => ({ ...prevDetails, chain_id: chain.id }));
+    }
+  }, [chain]);
+
+  interface ChainIdToAddress {
+    [key: number]: EthereumAddress;
+  }
+
+  const ChainIdToAddress: ChainIdToAddress = {
+    5: (process.env.NEXT_PUBLIC_GOERLI_FACTORY as EthereumAddress) ?? '',
+    421613: (process.env.NEXT_PUBLIC_ARBITRUM_GOERLI_FACTORY as EthereumAddress) ?? '',
+    1442: (process.env.NEXT_PUBLIC_POLYGON_ZKEVM_FACTORY as EthereumAddress) ?? '',
+    534351: (process.env.NEXT_PUBLIC_SCROLL_FACTORY as EthereumAddress) ?? '',
+    84531: (process.env.NEXT_PUBLIC_BASE_FACTORY as EthereumAddress) ?? '',
+  };
+
+  const factoryAddress = ChainIdToAddress[grantDetails.chain_id];
+  console.log(factoryAddress);
+
   const { config } = usePrepareContractWrite({
-    address: '0xCd4e5e4028A14f75FBa499905dFf120AeF6d91EA',
+    address: factoryAddress ?? undefined,
     abi: factoryAbi,
     functionName: 'createDonationCampaign',
     args: [
-      500000,
+      grantDetails.targetNumber,
       grantDetails.name,
       grantDetails.desc,
       grantDetails.banner,
       Math.floor(grantDetails.date.getTime() / 1000),
-      5,
     ],
   });
 
@@ -122,45 +144,18 @@ export default function Create() {
 
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="banner-link"
-            >
-              Id
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="id"
-              type="number"
-              name="id"
-              value={grantDetails.id}
-              onChange={handleInputChange}
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
             <DatePicker
               endDate={grantDetails.date}
               setEndDate={(date) => setGrantDetails((prev) => ({ ...prev, date }))}
             />
           </div>
         </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <Dropdown
-              targetChain={grantDetails.chain}
-              setTargetChain={(chain) => setGrantDetails((prev) => ({ ...prev, chain }))}
-            />
-          </div>
-        </div>
+
         <div className="md:flex md:items-center">
           <div className="md:w-1/3">
             <button
               className="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
               type="button"
-              disabled={!write}
               onClick={() => write?.()}
             >
               Post
