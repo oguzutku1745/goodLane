@@ -25,28 +25,30 @@ type Data = {
 const providerConfigs = [
   {
     name: 'goerli',
-    provider: new ethers.providers.JsonRpcProvider(process.env.GOERLI_PROVIDER),
-    factoryAddress: process.env.GOERLI_FACTORY,
+    provider: new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_GOERLI_PROVIDER),
+    factoryAddress: process.env.NEXT_PUBLIC_GOERLI_FACTORY,
   },
   {
     name: 'scroll',
-    provider: new ethers.providers.JsonRpcProvider(process.env.SCROLL_PROVIDER),
-    factoryAddress: process.env.SCROLL_FACTORY,
+    provider: new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_SCROLL_PROVIDER),
+    factoryAddress: process.env.NEXT_PUBLIC_SCROLL_FACTORY,
   },
   {
     name: 'arbitrum',
-    provider: new ethers.providers.JsonRpcProvider(process.env.ARBITRUM_GOERLI_PROVIDER),
-    factoryAddress: process.env.ARBITRUM_GOERLI_FACTORY,
+    provider: new ethers.providers.JsonRpcProvider(
+      process.env.NEXT_PUBLIC_ARBITRUM_GOERLI_PROVIDER,
+    ),
+    factoryAddress: process.env.NEXT_PUBLIC_ARBITRUM_GOERLI_FACTORY,
   },
   {
     name: 'polygon_zkevm',
-    provider: new ethers.providers.JsonRpcProvider(process.env.POLYGON_ZKEVM_PROVIDER),
-    factoryAddress: process.env.POLYGON_ZKEVM_FACTORY,
+    provider: new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_POLYGON_ZKEVM_PROVIDER),
+    factoryAddress: process.env.NEXT_PUBLIC_POLYGON_ZKEVM_FACTORY,
   },
   {
     name: 'base',
-    provider: new ethers.providers.JsonRpcProvider(process.env.BASE_PROVIDER),
-    factoryAddress: process.env.BASE_FACTORY,
+    provider: new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_BASE_PROVIDER),
+    factoryAddress: process.env.NEXT_PUBLIC_BASE_FACTORY,
   },
   //{ name: 'mantle', provider: new ethers.providers.JsonRpcProvider(process.env.MANTLE_PROVIDER) },
 ];

@@ -70,7 +70,7 @@ function GoodDetailsPage() {
           <p className="text-sm text-slate-500">{campaign?.campaignDesc}</p>
         </div>
 
-        <dl className="flex mt-6">
+        <dl className="flex flex-col mt-6 gap-y-2">
           <div className="flex flex-col-reverse">
             <dt className="text-sm font-medium text-slate-600">
               {campaign.campaignEnded ? 'Active' : 'Passive'}
@@ -82,10 +82,10 @@ function GoodDetailsPage() {
             <dt className="text-sm font-medium text-slate-600">Target Amount</dt>
             <dd className="text-xs text-slate-500">{campaign.campaignAmount}</dd>
           </div>
+
+          <TransferTokenCard />
         </dl>
       </a>
-
-      <TransferTokenCard />
     </div>
   );
 }
