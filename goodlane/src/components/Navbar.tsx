@@ -15,11 +15,13 @@ const Navbar = () => {
             className="ml-5 mt-3"
           />
         </div>
-        <div className="flex ml-5 gap-x-20">
-          <Link className="text-" href="/">
+        <div className="flex ml-[15%] gap-x-20">
+          <Link className="text-xl tracking-tighter" href="/">
             Homepage
           </Link>
-          <Link href="/create">Create Good</Link>
+          <Link className="text-xl tracking-tighter" href="/create">
+            Create Good
+          </Link>
         </div>
         <ConnectButton />
       </div>
