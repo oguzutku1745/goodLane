@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "bigint-buffer": "^1.1.5",
+    "circomkit": "^0.0.18",
+    "circomlib": "^2.0.5",
+    "fixed-merkle-tree": "^0.7.3",
+    "snarkjs": "^0.7.2",
+    "web3": "^4.2.2",
+    "web3-utils": "^4.0.7",
+    "websnark": "^0.0.5"
+  }
+}
