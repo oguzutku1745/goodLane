@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { shortenAddress } from '@hyperlane-xyz/utils';
 
 import { SolidButton } from '../../components/buttons/SolidButton';
-import { Identicon } from '../../components/icons/Identicon';
 import Wallet from '../../images/icons/wallet.svg';
 import { useIsSsr } from '../../utils/ssr';
 
@@ -44,7 +43,6 @@ export function WalletControlBar() {
         {numReady === 1 && (
           <SolidButton onClick={() => setIsSideBarOpen(true)} classes="px-2.5 py-1" color="white">
             <div className="flex items-center justify-center">
-              <Identicon address={readyAccounts[0].addresses[0]?.address} size={26} />
               <div className="flex flex-col mx-3 items-start">
                 <div className="text-xs text-gray-500">
                   {readyAccounts[0].connectorName || 'Wallet'}

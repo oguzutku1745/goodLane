@@ -6,7 +6,6 @@ import { toTitleCase } from '@hyperlane-xyz/utils';
 
 import { SmallSpinner } from '../../components/animation/SmallSpinner';
 import { ChainLogo } from '../../components/icons/ChainLogo';
-import { Identicon } from '../../components/icons/Identicon';
 import { PLACEHOLDER_COSMOS_CHAIN } from '../../consts/values';
 import ArrowRightIcon from '../../images/icons/arrow-right.svg';
 import CollapseIcon from '../../images/icons/collapse-icon.svg';
@@ -105,9 +104,7 @@ export function SideBarMenu({
                     onClick={onClickCopy(addr.address)}
                     className={`${styles.btn} border border-gray-200 rounded-xl`}
                   >
-                    <div className="shrink-0">
-                      <Identicon address={addr.address} size={40} />
-                    </div>
+                    <div className="shrink-0"></div>
                     <div className="flex flex-col mx-3 items-start">
                       <div className="text-gray-800 text-sm font-normal">
                         {acc.connectorName || 'Wallet'}
